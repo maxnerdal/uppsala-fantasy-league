@@ -75,8 +75,12 @@ def page(path):
     wait = 1.0 - (time.time() - _last[0])
     if wait > 0:
         time.sleep(wait)
-    r = requests.get(BASE + path, headers={"User-Agent": UA}, timeout=40)
-    _last[0] = time.time()
+    for attempt in range(4):
+        r = requests.get(BASE + path, headers={"User-Agent": UA}, timeout=40)
+        _last[0] = time.time()
+        if r.status_code < 500:
+            break
+        time.sleep(2 * (attempt + 1))
     r.raise_for_status()
     soup = BeautifulSoup(r.text, "html.parser")
     if soup.find("table") is None:

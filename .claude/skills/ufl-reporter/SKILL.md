@@ -15,6 +15,7 @@ Alla sökvägar nedan är relativa till repots rot. Skillen ska fungera både lo
 - `content/history.md`: säsongstabell, tidigare medlemmar och kuriosa.
 - `content/articles/`: tidigare artiklar. Läs de senaste så att du inte upprepar skämt.
 - **Läs lore i varje profil innan du skriver om ett lag.** Lore är det som gör texten personlig: gamla trades, klagomål, rivaliteter. Hitta aldrig på lore. Saknas den, skriv om lagets data och historik i stället.
+- **Veckans siffror:** `uv run scripts/ufl_week.py --week N` ger allt till måndagsartikeln i en JSON: lagens kategorisummor och rank per kategori, all-play, matcherna sorterade jämnast först med de free agents som hade vänt dem, varje spelares räknade veckosiffror, och projektioner för nästa vecka. Spelarraderna summerar till lagets total (bara det som räknades).
 - **Säsongsdata:** `uv run scripts/yahoo_nba.py`.
   - `league --week N --details`: alla veckans matchups med kategorisummor och båda rostrarna.
   - `dump --week N+1`: kommande veckans projektioner och free agents.
@@ -37,11 +38,27 @@ Svensk sportjournalistik med glimten i ögat: tänk en krönikör som också pod
 - Ingress som fångar: veckans största story först, inte en sammanfattning av allt.
 - Smeknamn och återkommande skämt från lore.
 - Overklig statistik ställs bredvid hård fakta: "0-20. Noll. Tjugo. Det är inte en säsong, det är ett telefonnummer."
+- Konstruktionen "det är inte X, det är Y" bara när bilden är självklar. "Det här är inte en förlust, det är en rättegång" säger ingenting.
+- Ingressens cliffhanger ska gå att förstå utan resten av texten: säg vilken kategori en siffra gäller ("poängkategorin slutade 409 mot 408").
 
 **Fakta**
 - Varje påstående om siffror ska stämma mot datan.
+- En spelares räknande siffror (poäng, returer, assist) skrivs alltid med antal matcher: "115 poäng på fyra matcher". `gp` finns i `players` och `flips` i `ufl_week.py`.
+- Nämn aldrig en spelare som om läsaren redan känner till honom. Presentera först, med siffror, och dra slutsatsen sedan.
+- Skriv ut vad en rank gäller: "laget är svagt på returer och blockar, nia i ligan i båda", inte "nionde i båda".
 - Skämta om beslut och resultat, inte om personer utanför fantasy.
 - Ingen elakhet om sådant managern inte kan påverka, förutom i ren ironi (draftlotteriet, skador).
+
+**Ordlista** (svenska basketord, inte direktöversättningar)
+
+| Kategori | Skriv |
+|---|---|
+| FGM | träffade skott |
+| FG% | skottprocent (aldrig "skytte", det är tvetydigt) |
+| FTM / FT% | straffkast / straffkastprocent (aldrig "frikast") |
+| 3PTM | trepoängare |
+| REB / AST / ST / BLK / TO | returer / assist / steals / blockar (plural, aldrig "block") / turnovers |
+| all-play | alla mot alla |
 
 **Form**
 - Inga tankstreck som skiljetecken. Använd punkt, kolon eller komma.
@@ -53,11 +70,11 @@ Svensk sportjournalistik med glimten i ögat: tänk en krönikör som också pod
 Skrivs måndag förmiddag efter att veckan stängt (söndag kväll US-tid).
 
 1. **Veckans story** (ingress): det mest dramatiska som hände.
-2. **All-play-tabellen, topp 3**: vilka lag hade vunnit flest matchups om de mött alla 11 andra med veckans kategorisiffror. Format: "THE CHAMP hade slagit 11 av 11". Under varje lag: hur laget är byggt (starkt i PTS och FTM, puntar AST, och så vidare).
-3. **Botten 3 i all-play**: vad de saknade, med siffror.
+2. **Alla mot alla, topp 3** (all-play): vilka lag hade vunnit flest matchups om de mött alla 11 andra med veckans kategorisiffror. Format: "THE CHAMP hade slagit 11 av 11". Under varje lag: hur laget är byggt (starkt i PTS och FTM, puntar AST, och så vidare).
+3. **Alla mot alla, botten 3**: vad de saknade, med siffror.
 4. **Veckans två jämnaste matcher**: varför de var jämna (vilka kategorier som avgjordes på marginalen), och vilken waiver-spelare som hade vänt det. Använd veckans free agents och deras faktiska veckosiffror.
 5. **Spelarnytt**: floppar och överraskningar mot draftplats och preseason-rank. Koppla till managern som valde dem: "valdes med pick 23, presterar som en runda 15-spelare".
-6. **Veckan som kommer**: alla sex matchups med projicerad vinnare (kategoriprojektion från Yahoos 7-dagarsprognos × matcher) och en mening om varför.
+6. **Veckan som kommer**: alla sex matchups med projicerad vinnare och en mening om varför. Ligan har veckouppställningar som låses vid veckans första match, så bara startarna räknas. Projicera alltid från varje lags **bästa möjliga uppställning** (`next_week` i `ufl_week.py`), aldrig från hela rostern eller den uppställning som råkar vara satt på måndagsmorgonen. Bänkade namn i den bästa uppställningen är material.
 7. **Avslutning**: en känga eller cliffhanger.
 
 ### Så räknas all-play
